@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Computing Web App</title>
+    <meta
+      name="description"
+      content="Diese Web App wurde für die Vorlesung Mobile Computing am KIT entwickelt"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="main.js"></script>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBp2y6RRWKzM5LqaHCfSHdXjxpbxNbkk2k&libraries=places,geometry&callback=initMap"
+    ></script>
+  </head>
+  <body>
+    <!-- HEADER WITH NAVIGATION -->
+    <header>
+      <nav>
+        <span onclick="setCurrentPageIndex(0)" class="nav-item active">
+          Kompass
+        </span>
+        <span onclick="setCurrentPageIndex(1)" class="nav-item">Zielsuche</span>
+        <span id="nav-indicator" class="nav-item-0"></span>
+      </nav>
+    </header>
+
+    <main>
+      <!-- PAGE 1 - COMPASS -->
+      <div class="page-wrapper">
+        <div class="compass">
+          <div class="arrow"></div>
+          <div class="compass-circle"></div>
+          <div class="my-point"></div>
+        </div>
+      </div>
+
+      <!-- PAGE 2 - GET DIRECTIONS -->
+      <div class="page-wrapper">
+        <!-- Waiting for location access -->
+        <div class="page-2-state-wrapper">
+          <h3>Bitte gehnemige die Standort-Berechtigung</h3>
+          <p>
+            Falls du die Standortberechtigung bereits genehmigt hast warte einen
+            kurzen Augenblick.
+          </p>
+        </div>
+
+        <!-- Location access denied -->
+        <div class="page-2-state-wrapper">
+          <h3>Das hat nicht funktioniert</h3>
+          <p>
+            Die Standortberechtigung wurde nicht genehmigt, die Funktion dieser
+            Website funktioniert dadurch nicht.
+          </p>
+        </div>
+
+        <!-- Location service not supported -->
+        <div class="page-2-state-wrapper">
+          <h3>Nicht unterstützt</h3>
+          <p>Die Standortfuntion wird auf diesem Gerät nicht unterstützt.</p>
+        </div>
+
+        <!-- Location access granted -->
+        <div class="page-2-state-wrapper">
+          <div class="direction-input">
+            <label for="">Wohin möchtest du gehen?</label>
+            <input
+              placeholder="Ort eingeben"
+              onkeyup="setSearch(event)"
+              type="text"
+            />
+            <button onClick="findPlace()">Suchen</button>
+
+            <p id="direction-not-found-error" class="direction-error">
+              Zu deiner Suche konnte kein Ort gefunden werden, versuche es
+              erneut.
+            </p>
+            <p id="direction-general-error" class="direction-error">
+              Bei der Suche ist ein Fehler aufgetreten. Versuche es mit einem
+              anderen Ort oder lade die Seite neu.
+            </p>
+          </div>
+        </div>
+
+        <!-- Input processed / show direction -->
+        <div class="page-2-state-wrapper">
+          <!-- Show Input -->
+          <div class="selected-location-wrapper">
+            <span id="selected-location">...</span>
+            <span class="selected-location-title">Deine Eingabe</span>
+          </div>
+
+          <!-- Show Compass -->
+          <div class="direction-outer-wrapper">
+            <div class="direction-wrapper">
+              <div class="white-overlap"></div>
+              <div id="direction-arrow-outer" class="direction-arrow-outer">
+                <div id="direction-arrow" class="direction-arrow"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Show Distance -->
+          <div class="location-distance-wrapper">
+            <span id="location-distance">...</span>
+            <span class="location-distance-title">Distanz zum Ziel</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Required for Google Maps API -->
+      <div id="map"></div>
+    </main>
+  </body>
+</html>
